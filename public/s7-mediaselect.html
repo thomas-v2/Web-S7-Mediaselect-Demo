@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<html lang="de">
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Medienauswahl über S7-SPS gesteuert</title>
+<style type="text/css">
+@media {
+    body {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 0.2fr 2.6fr 0.2fr;
+        gap: 5px 5px;
+        grid-template-areas:
+            "header header"
+            "imageArea videoArea"
+            "footer footer";
+    }
+}
+
+header {
+    grid-area: header;
+    background: #f2af00;
+    border-color: #32353e;
+}
+
+header p {
+    font-size: 2em;
+    line-height: 10%;
+}
+
+footer {
+    grid-area: footer;
+    background: #32353e;
+    border-color: #32353e;
+    color: #c3cbd0;
+}
+
+imageArea {
+    grid-area: imageArea;
+    background: #c3cbd0;
+    border-color: #32353e;
+    display: block;
+}
+
+videoArea {
+    grid-area: videoArea;
+    background: #398fb4;
+    border-color: #32353e;
+}
+
+body {
+    /*margin: 0 auto;
+    max-width: 10em;*/
+    font-family: sans-serif;
+}
+
+header,
+imageArea,
+videoArea,
+footer {
+    border-radius: 0.5em 0.5em;
+    border: 1px solid;
+    padding: 10px;
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    vertical-align: middle;
+}
+</style>
+<script type="text/javascript">
+/////////////////////////////
+var xhr;
+var videofile_old;
+
+getJsonData();
+
+function getJsonData()
+{
+    xhr = new XMLHttpRequest();
+    xhr.open("GET", "getvalues", true);
+
+    xhr.onreadystatechange = function()
+    {
+        if (xhr.readyState == 4) {
+            var data = JSON.parse(xhr.responseText);
+            var imagefile = "images/image-error.png";
+            var videofile = "videos/video-001.mp4";
+
+            if (data["imageNr"] == 0) {
+                imagefile = "images/image-000.png";
+            } else if (data["imageNr"] == 1) {
+                imagefile = "images/image-001.png";
+            } else if (data["imageNr"] == 2) {
+                imagefile = "images/image-002.png";
+            } else if (data["imageNr"] == 3) {
+                imagefile = "images/image-003.png";
+            }
+            document.getElementById("imageMedia").src = imagefile;
+
+            if (data["videoNr"] == 0) {
+                videofile = "videos/video-001.mp4";
+            } else if (data["videoNr"] == 1) {
+                videofile = "videos/video-002.mp4";
+            } else if (data["videoNr"] == 2) {
+                videofile = "videos/video-003.mp4";
+            } else if (data["videoNr"] == 3) {
+                videofile = "videos/video-004.mp4";
+            }
+            if (videofile != videofile_old) {
+                var video = document.getElementById('videoMedia');
+                video.pause();
+                video.src = videofile;
+                video.load();
+                video.play();
+            }
+            videofile_old = videofile;
+
+            setTimeout("getJsonData()", 1000);
+        }
+    }
+    xhr.send(null);
+}
+</script>
+</head>
+<body>
+<header>
+<p>Medienauswahl über S7-SPS gesteuert</p>
+</header>
+<imageArea>
+<p>
+<img id="imageMedia" src="images/image-001.png" class="center" />
+</p>
+</imageArea>
+<videoArea>
+<p>
+<video id="videoMedia" width="600" height="400" controls="" src="videos/video-001.mp4" class="center" autoplay loop muted></video>
+</p>
+</videoArea>
+<footer>
+T. Wiens, 2021
+</footer>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "Web-S7-Mediaselect-Demo",
+  "version": "0.0.1",
+  "description": "Medienauswahl durch S7 SPS",
+  "main": "app-s7-mediaselect.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodes7": "^0.3.11"
+  },
+  "devDependencies": {},
+  "scripts": {},
+  "author": "Thomas Wiens",
+  "license": "ISC"
+}

@@ -1,0 +1,18 @@
+﻿{
+    "webserver":
+    {
+        "port": 3000
+    },
+    "plc":
+    {
+        "host": "192.168.1.40",
+        "rack": 0,
+        "slot": 2,
+        "pollinterval": 1000,
+        "vars": 
+        {
+            "imageNr": "DB91,INT0",
+            "videoNr": "DB91,INT2"
+        }
+    }
+}
